@@ -12,15 +12,22 @@ public class Main {
     UserService userService;
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        new ClassPathXmlApplicationContext("beans.xml");
     }
 
     @PostConstruct
     public void postConstruct() throws Exception {
         User user = new User("jan", "admin123", "JanNowak", "jan@nowak.com");
         userService.addUser(user);
-        userService.verifyUser("jan", "admin123");
+        verifyUserPassword("jan", "admin123");
+        verifyUserPassword("jan", "defenitelyNotAValidPassword");
     }
 
-
+    private void verifyUserPassword(String username, String password) {
+        if (userService.verifyUser(username, password)) {
+            System.out.println("User " + username + " is verified with password " + password);
+        } else {
+            System.out.println("User " + username + " is not verified with password " + password);
+        }
+    }
 }
