@@ -3,10 +3,17 @@ package humberd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
 public class UserServiceImpl implements UserService {
-    @Autowired HashService hashService;
-    @Autowired UserRepository userRepository;
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    @Autowired
+    HashService hashService;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public void addUser(User user) throws IllegalUsernameException, IncorrectEmailException {
@@ -14,7 +21,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalUsernameException();
         }
 
-        if (user.getEmail().equals("admin@admin.com")) {
+        if (!isEmail(user.getEmail())) {
             throw new IncorrectEmailException();
         }
 
@@ -45,5 +52,10 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private boolean isEmail(String email) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(email);
+        return matcher.find();
     }
 }

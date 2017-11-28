@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Component
 public class UserRepositoryImpl implements UserRepository {
-    Map<String, User> repo = new HashMap<>();
+    private Map<String, User> repo = new HashMap<>();
 
     @Override
     public User findByUsername(String username) {
