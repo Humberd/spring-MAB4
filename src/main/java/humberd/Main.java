@@ -45,6 +45,7 @@ public class Main {
 
 
     private void addUserFromStdin() {
+        System.out.println();
         System.out.println("__Add new User__");
         String username = getFromStdin("Username");
         String password = getFromStdin("Password");
@@ -63,6 +64,7 @@ public class Main {
     }
 
     private void verifyPasswordFromStdin() {
+        System.out.println();
         System.out.println("__Verify Password__");
         String username = getFromStdin("Username");
         String password = getFromStdin("Password");
